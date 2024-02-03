@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const DynamicForm = () => {
     const { id } = useParams();
@@ -27,18 +28,20 @@ const DynamicForm = () => {
         setFormData(list);
     };
 
-    const handleSubmit = event => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log("Form Data", formData);
-        const res = axios.post(`/api/updateAsg`, { id, formData });
-        // setFormData([{ question: '', answer: '' }]);
+        const res = await axios.post(`/api/updateAsg`, { id, formData });
+
+        toast.success(res.data.message);
     };
+
 
     useEffect(() => {
         const fetchData = async () => {
             const res = await axios.post(`/api/getOneAsg`, { id });
             const assigments = res.data.assigments;
-            const { titte, dueDate, questions, className } = assigments
+            const { titte, dueDate, questions, className, publieshed } = assigments
             console.log(assigments)
             if (questions.length !== 0) {
                 setFormData(questions)
@@ -104,21 +107,24 @@ const DynamicForm = () => {
                         </button>
                     </div>
                 ))}
-                <div className='flex gap-3 '>
+                <div className='flex justify-between'>
+                    <div className='flex gap-3 '>
 
-                    <button
-                        type="button"
-                        onClick={() => handleAddFields()}
-                        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-                    >
-                        Add
-                    </button>
-                    <button
-                        type="submit"
-                        className="px-4 py-2 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
-                    >
-                        Submit
-                    </button>
+                        <button
+                            type="button"
+                            onClick={() => handleAddFields()}
+                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                        >
+                            Add
+                        </button>
+                        <button
+                            type="submit"
+                            className="px-4 py-2 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+                        >
+                            Update
+                        </button>
+                    </div>
+
                 </div>
             </form>
 

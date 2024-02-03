@@ -6,8 +6,9 @@ connectDB()
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { id } = body;
-        const assigments = await assignment.findById(id) // Parse the JSON data from the request body
+        const { id, formData } = body;
+        console.log(formData)
+        const assigments = await assignment.findByIdAndUpdate(id, { questions: formData }) // Parse the JSON data from the request body
         console.log(assigments)
         if (!assigments) {
             return NextResponse.json({ message: "No assigment found", sucess: false }, { status: 404 })

@@ -54,7 +54,6 @@ function page() {
                             <p className="text-gray-700">Due Date: {assignment.dueDate}</p>
                             {/* <p className="text-gray-700">Submission Status: {assignment.submitted ? <span className="text-green-600">Submitted</span> : <span className="text-red-600">Not Submitted</span>}</p> */}
 
-
                             <p className="text-white font-bold bg-blue-500 w-fit text p-1 rounded-lg">Days Left: {calculateDaysLeft(assignment.dueDate)}</p>
 
 
